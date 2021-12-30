@@ -1,39 +1,38 @@
+const { parse } = require("pg-connection-string");
+
 module.exports = ({ env }) => {
-  const dbType = env('DB_TYPE');
-  console.log(dbType)
-  let dbConfig = {
+  const { host, port, database, user, password } = parse(env("DATABASE_URL"));
+
+  const postgresSettings = {
+    client: "postgres",
+    host,
+    port,
+    database,
+    username: user,
+    password,
+    ssl: { rejectUnauthorized: false }
+  }
+
+  const sqliteSettings = {
+    client: 'sqlite',
+    filename: '.tmp/data.db'
+  }
+
+  return {
     defaultConnection: 'default',
     connections: {
       default: {
         connector: 'bookshelf',
-        settings: {
-          client: 'sqlite',
-          filename: env('DATABASE_FILENAME', '.tmp/data.db'),
-        },
+        settings: process.env.DATABASE_TYPE_SQLITE ? sqliteSettings : postgresSettings,
         options: {
           useNullAsDefault: true,
         },
       },
-    },
-  };
-  if (dbType === 'POSTGRES') {
-    dbConfig = {
-      defaultConnection: 'default',
-      connections: {
-        default: {
-          connector: 'bookshelf',
-          settings: {
-            client: 'postgres',
-            host: env('DB_HOST', 'localhost'),
-            port: env('DB_PORT', '5432'),
-            database: env('DB_NAME', 'strapi'),
-            username: env('DB_USER', 'strapi'),
-            password: env('DB_PASSWORD', 'strapi'),
-          },
-          options: {},
-        },
-      },
-    };
+    }
   }
-  return dbConfig;
 };
+
+
+
+
+
