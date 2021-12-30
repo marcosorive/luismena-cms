@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "paginas",
   "info": {
-    "name": "Paginas"
+    "name": "Paginas",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -29,6 +30,11 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Titulo",
+      "required": true
     }
   }
 }
