@@ -1,3 +1,5 @@
-# Strapi application
+# Luis Mena CMS
 
-A quick description of your strapi application
+This is the CMS instance for estudioluismena.com. Powered by strapi.
+
+Check it out https://estudioluismena.com
